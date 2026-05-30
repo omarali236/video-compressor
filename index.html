@@ -6,91 +6,59 @@
 <title>SATELLITE COMPRESSOR 🎬</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --green: #00ff9d;
-    --red: #ff2d55;
-    --bg: #060a0f;
-    --panel: #0d1520;
-    --border: #1a2a3a;
-    --text: #c8dae8;
-    --dim: #4a6070;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Tajawal', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-image:
-      linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  .container { width: 100%; max-width: 600px; }
-  .header { text-align: center; margin-bottom: 28px; }
-  .logo { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 4px; margin-bottom: 8px; opacity: 0.7; }
-  .title { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -1px; }
-  .title span { color: var(--green); }
-  .subtitle { font-size: 12px; color: var(--dim); margin-top: 6px; font-family: 'Share Tech Mono', monospace; letter-spacing: 1px; }
-  .sites { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 10px; }
-  .site { background: #080d14; border: 1px solid var(--border); border-radius: 4px; padding: 3px 10px; font-size: 11px; font-family: 'Share Tech Mono', monospace; color: var(--dim); }
-
-  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 12px; position: relative; overflow: hidden; }
-  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--green), transparent); opacity: 0.3; }
-  .lbl { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--green); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-  .lbl::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  /* server status dot */
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dim); display: inline-block; margin-left: 6px; }
-  .dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
-  .dot.off { background: var(--red); }
-
-  input[type="text"], select {
-    width: 100%; background: #080d14; border: 1px solid var(--border); border-radius: 8px;
-    color: #fff; font-family: 'Share Tech Mono', monospace; font-size: 13px;
-    padding: 11px 14px; direction: ltr; outline: none; transition: border-color 0.2s; margin-bottom: 10px;
-  }
-  input[type="text"]:focus, select:focus { border-color: var(--green); }
-  input::placeholder { color: var(--dim); }
-  select { color: var(--text); font-family: 'Tajawal', sans-serif; font-size: 14px; appearance: none; cursor: pointer; }
-
-  .btn { width: 100%; padding: 12px; border-radius: 8px; border: none; font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-outline:hover { border-color: var(--green); color: var(--green); }
-  .btn-green { background: var(--green); color: #060a0f; font-size: 16px; padding: 14px; }
-  .btn-green:hover { background: #00ffb3; box-shadow: 0 0 28px rgba(0,255,157,0.25); transform: translateY(-1px); }
-  .btn-green:active { transform: translateY(0); }
-  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
-
-  .info-row { background: #080d14; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; display: none; justify-content: space-between; align-items: center; }
-  .info-row.show { display: flex; }
-  .info-key { font-size: 11px; color: var(--dim); font-family: 'Share Tech Mono', monospace; margin-bottom: 3px; }
-  .info-val { font-size: 13px; color: #fff; max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .info-size { font-size: 22px; font-weight: 900; color: var(--red); font-family: 'Share Tech Mono', monospace; }
-
-  .status { border-radius: 8px; padding: 11px 14px; font-size: 13px; margin-bottom: 8px; display: none; font-family: 'Share Tech Mono', monospace; line-height: 1.6; letter-spacing: 0.3px; }
-  .status.info  { background: rgba(0,255,157,0.06); color: var(--green); border: 1px solid rgba(0,255,157,0.2); display: block; }
-  .status.error { background: rgba(255,45,85,0.06); color: var(--red); border: 1px solid rgba(255,45,85,0.2); display: block; }
-  .status.ok    { background: rgba(0,255,157,0.1); color: #00ffb3; border: 1px solid rgba(0,255,157,0.3); display: block; }
-  .status.warn  { background: rgba(255,180,0,0.06); color: #ffb400; border: 1px solid rgba(255,180,0,0.2); display: block; }
-
-  .progress { background: #080d14; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; display: none; margin-bottom: 8px; }
-  .progress.show { display: block; }
-  .progress-lbl { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--dim); margin-bottom: 8px; letter-spacing: 2px; }
-  .bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .fill { height: 100%; background: var(--green); border-radius: 2px; animation: slide 1.6s ease-in-out infinite; width: 35%; box-shadow: 0 0 6px var(--green); }
-  @keyframes slide { 0%{margin-right:100%} 50%{margin-right:0%} 100%{margin-right:100%} }
-
-  .footer { text-align: center; font-size: 11px; color: var(--dim); font-family: 'Share Tech Mono', monospace; margin-top: 14px; }
+  :root { --green:#00ff9d; --red:#ff2d55; --bg:#060a0f; --panel:#0d1520; --border:#1a2a3a; --text:#c8dae8; --dim:#4a6070; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background-image:linear-gradient(rgba(0,255,157,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,157,.03) 1px,transparent 1px);background-size:40px 40px}
+  .container{width:100%;max-width:600px}
+  .header{text-align:center;margin-bottom:28px}
+  .logo{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--green);letter-spacing:4px;margin-bottom:8px;opacity:.7}
+  .title{font-size:32px;font-weight:900;color:#fff;letter-spacing:-1px}
+  .title span{color:var(--green)}
+  .subtitle{font-size:12px;color:var(--dim);margin-top:6px;font-family:'Share Tech Mono',monospace;letter-spacing:1px}
+  .sites{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+  .site{background:#080d14;border:1px solid var(--border);border-radius:4px;padding:3px 10px;font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--dim)}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:12px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.3}
+  .lbl{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--green);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;margin-left:6px;transition:all .3s}
+  .dot.on{background:var(--green);box-shadow:0 0 6px var(--green)}
+  .dot.off{background:var(--red)}
+  .server-box{background:#080d14;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:10px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);word-break:break-all;min-height:42px}
+  .server-box .url{color:var(--green);font-size:11px}
+  input[type="text"],select{width:100%;background:#080d14;border:1px solid var(--border);border-radius:8px;color:#fff;font-family:'Share Tech Mono',monospace;font-size:13px;padding:11px 14px;direction:ltr;outline:none;transition:border-color .2s;margin-bottom:10px}
+  input[type="text"]:focus,select:focus{border-color:var(--green)}
+  input::placeholder{color:var(--dim)}
+  select{color:var(--text);font-family:'Tajawal',sans-serif;font-size:14px;appearance:none;cursor:pointer}
+  .btn{width:100%;padding:12px;border-radius:8px;border:none;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+  .btn-outline:hover{border-color:var(--green);color:var(--green)}
+  .btn-green{background:var(--green);color:#060a0f;font-size:16px;padding:14px}
+  .btn-green:hover{background:#00ffb3;box-shadow:0 0 28px rgba(0,255,157,.25);transform:translateY(-1px)}
+  .btn-green:active{transform:translateY(0)}
+  .btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+  .info-row{background:#080d14;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:10px;display:none;justify-content:space-between;align-items:center}
+  .info-row.show{display:flex}
+  .info-key{font-size:11px;color:var(--dim);font-family:'Share Tech Mono',monospace;margin-bottom:3px}
+  .info-val{font-size:13px;color:#fff;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .info-size{font-size:22px;font-weight:900;color:var(--red);font-family:'Share Tech Mono',monospace}
+  .status{border-radius:8px;padding:11px 14px;font-size:13px;margin-bottom:8px;display:none;font-family:'Share Tech Mono',monospace;line-height:1.6}
+  .status.info{background:rgba(0,255,157,.06);color:var(--green);border:1px solid rgba(0,255,157,.2);display:block}
+  .status.error{background:rgba(255,45,85,.06);color:var(--red);border:1px solid rgba(255,45,85,.2);display:block}
+  .status.ok{background:rgba(0,255,157,.1);color:#00ffb3;border:1px solid rgba(0,255,157,.3);display:block}
+  .status.warn{background:rgba(255,180,0,.06);color:#ffb400;border:1px solid rgba(255,180,0,.2);display:block}
+  .progress{background:#080d14;border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:none;margin-bottom:8px}
+  .progress.show{display:block}
+  .progress-lbl{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);margin-bottom:8px;letter-spacing:2px}
+  .bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+  .fill{height:100%;background:var(--green);border-radius:2px;animation:slide 1.6s ease-in-out infinite;width:35%;box-shadow:0 0 6px var(--green)}
+  @keyframes slide{0%{margin-right:100%}50%{margin-right:0%}100%{margin-right:100%}}
+  .footer{text-align:center;font-size:11px;color:var(--dim);font-family:'Share Tech Mono',monospace;margin-top:14px}
+  .badge-connected{display:inline-flex;align-items:center;gap:6px;background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.25);border-radius:6px;padding:5px 12px;font-size:12px;font-family:'Share Tech Mono',monospace;color:var(--green)}
 </style>
 </head>
 <body>
 <div class="container">
-
   <div class="header">
     <div class="logo">▸ SATELLITE COMPRESSOR V2</div>
     <div class="title">VIDEO <span>SNIPER</span></div>
@@ -103,17 +71,16 @@
     </div>
   </div>
 
-  <!-- STEP 1 -->
+  <!-- SERVER STATUS -->
   <div class="card">
-    <div class="lbl">01 — رابط الكولاب</div>
-    <input type="text" id="serverUrl" placeholder="https://xxxx.googleusercontent.com/..." dir="ltr">
-    <button class="btn btn-outline" onclick="testServer()">
-      <span class="dot" id="dot"></span> اختبار الاتصال بالسيرفر
-    </button>
-    <div id="srvStatus" class="status"></div>
+    <div class="lbl">01 — السيرفر</div>
+    <div class="server-box" id="serverBox">
+      <span id="serverDisplay" style="color:var(--dim)">⏳ جاري قراءة السيرفر من الرابط...</span>
+    </div>
+    <div id="autoStatus" class="status"></div>
   </div>
 
-  <!-- STEP 2 -->
+  <!-- VIDEO URL -->
   <div class="card">
     <div class="lbl">02 — رابط الفيديو</div>
     <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." dir="ltr">
@@ -125,24 +92,22 @@
       </div>
       <div style="text-align:left">
         <div class="info-key">SIZE</div>
-        <div class="info-size"><span id="vSize"></span><span style="font-size:13px;color:var(--dim);"> MB</span></div>
+        <div class="info-size"><span id="vSize"></span><span style="font-size:13px;color:var(--dim)"> MB</span></div>
       </div>
     </div>
     <div id="checkStatus" class="status"></div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- COMPRESS -->
   <div class="card">
     <div class="lbl">03 — اضغط وحمّل</div>
-
-    <div style="font-size:13px;color:var(--dim);margin-bottom:6px;">مستوى الضغط:</div>
+    <div style="font-size:13px;color:var(--dim);margin-bottom:6px">مستوى الضغط:</div>
     <select id="preset">
       <option value="veryfast">🚀 سريع — حجم متوسط</option>
       <option value="medium" selected>⚖️ متوازن — حجم صغير + جودة ممتازة</option>
       <option value="slow">💎 أقصى ضغط — أصغر حجم ممكن</option>
     </select>
-
-    <div style="font-size:13px;color:var(--dim);margin-bottom:6px;">الدقة:</div>
+    <div style="font-size:13px;color:var(--dim);margin-bottom:6px">الدقة:</div>
     <select id="resolution">
       <option value="1080">1080p — Full HD</option>
       <option value="720" selected>720p — HD (مناسب للمشاركة)</option>
@@ -150,9 +115,7 @@
       <option value="360">360p — أصغر حجم</option>
       <option value="best">أفضل جودة متاحة</option>
     </select>
-
     <button class="btn btn-green" id="compressBtn" onclick="compress()">⬇ ضغط وتحميل</button>
-
     <div id="progressBox" class="progress">
       <div class="progress-lbl" id="progLbl">PROCESSING...</div>
       <div class="bar"><div class="fill"></div></div>
@@ -160,42 +123,59 @@
     <div id="compressStatus" class="status"></div>
   </div>
 
-  <div class="footer">▸ شغّل SATELLITE_COLAB_V2.ipynb في Google Colab أولاً</div>
+  <div class="footer" id="footer">▸ شغّل SATELLITE_COLAB_V2.ipynb في Google Colab أولاً</div>
 </div>
 
 <script>
-function srv() { return document.getElementById('serverUrl').value.trim().replace(/\/$/, ''); }
+// ── قراءة السيرفر من URL تلقائياً ──
+let SERVER = '';
+
+function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name) || '';
+}
+
 function setS(id, msg, type) {
   const el = document.getElementById(id);
   el.className = 'status ' + type;
   el.innerHTML = msg;
 }
 
-async function testServer() {
-  const s = srv();
-  if (!s) { setS('srvStatus','⚠ حط رابط الكولاب الأول','error'); return; }
-  setS('srvStatus','⏳ بيتصل...','info');
-  document.getElementById('dot').className = 'dot';
+async function autoConnect() {
+  SERVER = getParam('server');
+
+  if (!SERVER) {
+    document.getElementById('serverDisplay').innerHTML =
+      '<span style="color:var(--red)">⚠ مفيش سيرفر في الرابط — شغّل الكولاب الأول</span>';
+    setS('autoStatus', '▸ شغّل الـ notebook في Colab وهيطبع رابط الموقع مع السيرفر جاهز', 'warn');
+    return;
+  }
+
+  // عرض الرابط
+  document.getElementById('serverDisplay').innerHTML =
+    '<span style="opacity:.5;font-size:10px">SERVER: </span><span class="url">' + SERVER + '</span>';
+
+  setS('autoStatus', '⏳ بيتصل بالسيرفر تلقائياً...', 'info');
+
   try {
-    const r = await fetch(s + '/', { headers: {'Content-Type':'application/json'} });
+    const r = await fetch(SERVER + '/', { signal: AbortSignal.timeout(8000) });
     const d = await r.json();
-    if (d.status) {
-      document.getElementById('dot').className = 'dot on';
-      setS('srvStatus','✓ السيرفر متصل وشغّال — ' + d.status,'ok');
-    }
+    setS('autoStatus', '✅ السيرفر متصل وجاهز — ' + (d.status || 'ONLINE'), 'ok');
+    document.getElementById('footer').textContent = '▸ السيرفر شغّال · ' + SERVER.slice(0, 40) + '...';
   } catch(e) {
-    document.getElementById('dot').className = 'dot off';
-    setS('srvStatus','❌ مش قادر يوصل — اتأكد إن الكولاب شغّال والرابط صح<br><small style="opacity:0.5">' + e.message + '</small>','error');
+    setS('autoStatus',
+      '❌ السيرفر مش متصل — اتأكد إن الكولاب شغّال<br>' +
+      '<small style="opacity:.5">' + e.message + '</small>', 'error');
   }
 }
 
 async function checkVideo() {
-  const s = srv(), url = document.getElementById('videoUrl').value.trim();
-  if (!s || !url) { setS('checkStatus','⚠ حط رابط السيرفر والفيديو','error'); return; }
+  if (!SERVER) { setS('checkStatus','⚠ السيرفر مش متصل — شغّل الكولاب الأول','error'); return; }
+  const url = document.getElementById('videoUrl').value.trim();
+  if (!url) { setS('checkStatus','⚠ حط رابط الفيديو','error'); return; }
   setS('checkStatus','⏳ جاري الفحص...','info');
   document.getElementById('infoRow').classList.remove('show');
   try {
-    const r = await fetch(s + '/info', {
+    const r = await fetch(SERVER + '/info', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({url})
     });
@@ -206,29 +186,30 @@ async function checkVideo() {
     document.getElementById('infoRow').classList.add('show');
     setS('checkStatus','✓ تم — اختار الجودة وحمّل','ok');
   } catch(e) {
-    setS('checkStatus','⚠ مقدرش أفحص — تقدر تضغط وتحمل علطول<br><small style="opacity:0.5">' + e.message + '</small>','warn');
+    setS('checkStatus','⚠ مقدرش أفحص — تقدر تضغط وتحمل علطول<br><small style="opacity:.5">'+e.message+'</small>','warn');
   }
 }
 
 async function compress() {
-  const s = srv(), url = document.getElementById('videoUrl').value.trim();
+  if (!SERVER) { setS('compressStatus','⚠ السيرفر مش متصل — شغّل الكولاب الأول','error'); return; }
+  const url = document.getElementById('videoUrl').value.trim();
+  if (!url) { setS('compressStatus','⚠ حط رابط الفيديو','error'); return; }
   const preset = document.getElementById('preset').value;
   const resolution = document.getElementById('resolution').value;
-  if (!s || !url) { setS('compressStatus','⚠ حط رابط السيرفر والفيديو','error'); return; }
 
   const btn = document.getElementById('compressBtn');
   btn.disabled = true; btn.textContent = '⏳ شغّال...';
   document.getElementById('progressBox').classList.add('show');
   document.getElementById('progLbl').textContent = 'DOWNLOADING + COMPRESSING...';
-  setS('compressStatus','🚀 السيرفر بيحمّل الفيديو ويعصره... ممكن ياخد من 30 ثانية لـ 5 دقايق حسب الحجم','info');
+  setS('compressStatus','🚀 السيرفر بيحمّل الفيديو ويعصره... ممكن ياخد من 30 ثانية لـ 5 دقايق','info');
 
   try {
-    const response = await fetch(s + '/compress', {
+    const response = await fetch(SERVER + '/compress', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({url, preset, resolution})
     });
     if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
+      const err = await response.json().catch(()=>({}));
       throw new Error(err.error || 'HTTP ' + response.status);
     }
     document.getElementById('progLbl').textContent = 'DOWNLOADING TO YOUR DEVICE...';
@@ -242,11 +223,14 @@ async function compress() {
     setS('compressStatus','✅ مبروك! تم التحميل — الحجم النهائي: ' + sizeMB + ' MB','ok');
   } catch(e) {
     document.getElementById('progressBox').classList.remove('show');
-    setS('compressStatus','❌ مشكلة: ' + e.message + '<br><small style="opacity:0.5">اتأكد إن الكولاب شغّال والرابط صح</small>','error');
+    setS('compressStatus','❌ مشكلة: ' + e.message + '<br><small style="opacity:.5">اتأكد إن الكولاب شغّال</small>','error');
   } finally {
     btn.disabled = false; btn.textContent = '⬇ ضغط وتحميل';
   }
 }
+
+// تشغيل تلقائي عند فتح الصفحة
+autoConnect();
 </script>
 </body>
 </html>
