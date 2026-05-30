@@ -22,7 +22,7 @@
 <div class="box">
     <h2>📡 CLOUD VIDEO COMPRESSOR v1.0</h2>
     
-    <input type="text" id="serverUrl" placeholder="🔗 حط هنا رابط كولاب اللي آخره colab.dev">
+    <input type="text" id="serverUrl" placeholder="🔗 حط رابط كولاب هنا بأي امتداد">
     <button class="btn-blue" onclick="activateServer()">🔑 اضغط هنا لتفعيل السيرفر أول مرة</button>
     <hr style="border-color:#00ffcc; margin: 20px 0;">
 
@@ -61,6 +61,7 @@
         try {
             const res = await fetch(`${server}/info`, {
                 method: 'POST',
+                mode: 'cors', // تفعيل نمط تخطي حماية المتصفح أوتوماتيك
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ url: url })
             });
@@ -70,7 +71,7 @@
             document.getElementById('videoInfo').style.display = "block";
             document.getElementById('status').innerText = "✅ تم الفحص بنجاح!";
         } catch(e) {
-            document.getElementById('status').innerText = "❌ فشل الاتصال. اضغط على الزرار الأزرق فوق لتفعيل الرابط ثم جرب مجدداً.";
+            document.getElementById('status').innerText = "❌ فشل الاتصال. اضغط على الزرار الأزرق فوق لتفعيل الرابط في التاب الثانية، ثم ارجع اضغط فحص هنا.";
         }
     }
 
@@ -79,10 +80,11 @@
         const url = document.getElementById('videoUrl').value;
         const preset = document.getElementById('preset').value;
         
-        document.getElementById('status').innerText = "🚀 جاري الضغط والتحميل...";
+        document.getElementById('status').innerText = "🚀 جاري الضغط والتحميل عبر كولاب...";
         try {
             const response = await fetch(`${server}/compress`, {
                 method: 'POST',
+                mode: 'cors',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ url: url, preset: preset })
             });
