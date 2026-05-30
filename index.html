@@ -20,10 +20,10 @@
 <div class="box">
     <h2>📡 CLOUD VIDEO COMPRESSOR v1.0</h2>
     
-    <input type="text" id="serverUrl" placeholder="🔗 حط هنا رابط كولاب اللي آخره colab.dev">
+    <input type="text" id="serverUrl" placeholder="🔗 حط هنا رابط الـ ngrok الجديد">
     <hr style="border-color:#00ffcc; margin: 20px 0;">
 
-    <input type="text" id="videoUrl" placeholder="📥 بيست رابط الفيديو هنا (يوتيوب، ريديت، تويتر...)">
+    <input type="text" id="videoUrl" placeholder="📥 بيست رابط الفيديو هنا (يوتيوب، ريديت...)">
     <button onclick="checkVideo()">🔍 فحص الفيديو وميعاد الحجم</button>
     
     <div id="videoInfo" style="display:none;">
@@ -48,11 +48,14 @@
         const url = document.getElementById('videoUrl').value;
         if(!server || !url) return alert('املا الخانات الأول يا فنان!');
         
-        document.getElementById('status').innerText = "⏳ جاري فحص الرابط عبر سيرفر كولاب...";
+        document.getElementById('status').innerText = "⏳ جاري فحص الرابط...";
         try {
             const res = await fetch(`${server}/info`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true' // السطر السحري لتخطي أي حظر
+                },
                 body: JSON.stringify({ url: url })
             });
             const data = await res.json();
@@ -61,7 +64,7 @@
             document.getElementById('videoInfo').style.display = "block";
             document.getElementById('status').innerText = "✅ تم الفحص بنجاح!";
         } catch(e) {
-            document.getElementById('status').innerText = "❌ فشل الاتصال. اتأكد إنك حطيت الرابط اللي آخره colab.dev صح وكولاب شغال.";
+            document.getElementById('status').innerText = "❌ فشل الاتصال بالسيرفر الجديد.";
         }
     }
 
@@ -70,11 +73,14 @@
         const url = document.getElementById('videoUrl').value;
         const preset = document.getElementById('preset').value;
         
-        document.getElementById('status').innerText = "🚀 كولاب بيسحب الفيديو ويفرمه بالـ FFmpeg حالياً... انتظر ثواني وهيتحمل لوحده!";
+        document.getElementById('status').innerText = "🚀 كولاب بيضغط الفيديو حالياً... استنى ثواني وهيتحمل لوحده!";
         try {
             const response = await fetch(`${server}/compress`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                },
                 body: JSON.stringify({ url: url, preset: preset })
             });
             
@@ -86,7 +92,7 @@
             document.body.appendChild(a);
             a.click();
             a.remove();
-            document.getElementById('status').innerText = "📥 مبروك! الفيديو نزل على جهازك مضغوط جاهز.";
+            document.getElementById('status').innerText = "📥 مبروك! تم التحميل.";
         } catch(e) {
             document.getElementById('status').innerText = "❌ حصلت مشكلة أثناء الضغط.";
         }
