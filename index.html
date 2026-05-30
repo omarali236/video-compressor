@@ -13,7 +13,6 @@
         button { background: #ff0055; color: white; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
         button:hover { background: #ff3377; box-shadow: 0 0 10px #ff0055; }
         .btn-blue { background: #0088cc; color: white; border: none; }
-        .btn-blue:hover { background: #00aaff; box-shadow: 0 0 10px #0088cc; }
         #status { margin-top: 20px; color: #ffaa00; font-size: 14px; }
     </style>
 </head>
@@ -22,24 +21,25 @@
 <div class="box">
     <h2>📡 CLOUD VIDEO COMPRESSOR v1.0</h2>
     
-    <input type="text" id="serverUrl" placeholder="🔗 حط رابط كولاب هنا بأي امتداد">
+    <input type="text" id="serverUrl" placeholder="🔗 حط رابط كولاب هنا">
     <button class="btn-blue" onclick="activateServer()">🔑 اضغط هنا لتفعيل السيرفر أول مرة</button>
     <hr style="border-color:#00ffcc; margin: 20px 0;">
 
     <input type="text" id="videoUrl" placeholder="📥 بيست رابط الفيديو هنا...">
-    <button onclick="checkVideo()">🔍 فحص الفيديو وميعاد الحجم</button>
+    <button onclick="checkVideo()">🔍 1. فحص حجم الفيديو الأصلي</button>
     
-    <div id="videoInfo" style="display:none;">
+    <div id="videoInfo">
         <p id="videoTitle" style="color:#fff; font-weight:bold;"></p>
-        <p> الحجم التقريبي: <span id="videoSize" style="color:#ff0055;"></span> MB</p>
+        <p id="sizeDisplay" style="display:none;"> الحجم الأصلي: <span id="videoSize" style="color:#ff0055;"></span> MB</p>
         
-        <label>🎛️ جودة الضغط المطلوبة:</label>
+        <hr style="border-color:#333; margin: 15px 0;">
+        <label>🎛️ 2. اختار مستوى العصر (الضغط):</label>
         <select id="preset">
-            <option value="veryfast">ضغط طيارة (سريع جداً - حجم متوسط)</option>
+            <option value="veryfast">ضغط طيارة (سريع - حجم متوسط)</option>
             <option value="medium" selected>ضغط متوازن (حجم صغير - جودة ممتازة)</option>
-            <option value="slow">عصر الفيديو (بطيء - أصغر حجم ممكن)</option>
+            <option value="slow">عصر الفيديو (بطيء - أصغر حجم ممكن للـ 200 ميجا)</option>
         </select>
-        <button id="compressBtn" onclick="startCompression()" style="background:#00ffcc; color:#0b0e14;">⚡ اضغط وحمل فوراً</button>
+        <button id="compressBtn" onclick="startCompression()" style="background:#00ffcc; color:#0b0e14;">⚡ 3. اضغط الفيديو وحمله فوراً</button>
     </div>
 
     <div id="status"></div>
@@ -57,21 +57,20 @@
         const url = document.getElementById('videoUrl').value;
         if(!server || !url) return alert('املا الخانات الأول يا فنان!');
         
-        document.getElementById('status').innerText = "⏳ جاري الفحص...";
+        document.getElementById('status').innerText = "⏳ جاري فحص الحجم الأصلي...";
         try {
             const res = await fetch(`${server}/info`, {
                 method: 'POST',
-                mode: 'cors', // تفعيل نمط تخطي حماية المتصفح أوتوماتيك
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ url: url })
             });
             const data = await res.json();
             document.getElementById('videoTitle').innerText = data.title;
             document.getElementById('videoSize').innerText = data.size_mb;
-            document.getElementById('videoInfo').style.display = "block";
-            document.getElementById('status').innerText = "✅ تم الفحص بنجاح!";
+            document.getElementById('sizeDisplay').style.display = "block";
+            document.getElementById('status').innerText = "✅ تم جلب الحجم الأصلي! اِضغط على زرار الضغط الأخضر تحت حالاً.";
         } catch(e) {
-            document.getElementById('status').innerText = "❌ فشل الاتصال. اضغط على الزرار الأزرق فوق لتفعيل الرابط في التاب الثانية، ثم ارجع اضغط فحص هنا.";
+            document.getElementById('status').innerText = "❌ المتصفح حظر الفحص التلقائي، بس مفيش مشكلة.. تقدر تضغط وتحمل علطول بالزرار الأخضر تحت!";
         }
     }
 
@@ -79,12 +78,12 @@
         const server = document.getElementById('serverUrl').value.replace(/\/$/, "");
         const url = document.getElementById('videoUrl').value;
         const preset = document.getElementById('preset').value;
+        if(!server || !url) return alert('حط الروابط الأول يا غالي!');
         
-        document.getElementById('status').innerText = "🚀 جاري الضغط والتحميل عبر كولاب...";
+        document.getElementById('status').innerText = "🚀 كولاب بيفرم ويعصر الفيديو حالياً... استنى ثواني هتلاقيه بيحمل لوحده بحجم صغير!";
         try {
             const response = await fetch(`${server}/compress`, {
                 method: 'POST',
-                mode: 'cors',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ url: url, preset: preset })
             });
@@ -97,9 +96,9 @@
             document.body.appendChild(a);
             a.click();
             a.remove();
-            document.getElementById('status').innerText = "📥 مبروك! تم التحميل.";
+            document.getElementById('status').innerText = "📥 مبروك! تم التحميل بالحجم الجديد الصغير.";
         } catch(e) {
-            document.getElementById('status').innerText = "❌ حصلت مشكلة أثناء الضغط.";
+            document.getElementById('status').innerText = "❌ حصلت مشكلة؛ اتأكد إنك ضغطت على الزرار الأزرق فوق مرة لتفعيل السيرفر.";
         }
     }
 </script>
