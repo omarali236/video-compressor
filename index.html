@@ -1,107 +1,501 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>SATELLITE COMPRESSOR 🎬</title>
-    <style>
-        body { background: #0b0e14; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 40px; }
-        .box { background: #161b22; border: 2px solid #00ffcc; padding: 30px; border-radius: 4px; display: inline-block; width: 90%; max-width: 550px; box-shadow: 0 0 15px rgba(0,255,204,0.2); }
-        h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 2px; color: #ff0055; margin-bottom: 25px; }
-        input, select, button { width: 95%; padding: 12px; margin: 12px 0; border-radius: 4px; border: 1px solid #00ffcc; font-size: 15px; font-family: inherit; }
-        input { background: #0d1117; color: #fff; text-align: left; direction: ltr; }
-        select { background: #0d1117; color: #00ffcc; }
-        button { background: #ff0055; color: white; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        button:hover { background: #ff3377; box-shadow: 0 0 10px #ff0055; }
-        .btn-blue { background: #0088cc; color: white; border: none; }
-        #status { margin-top: 20px; color: #ffaa00; font-size: 14px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SATELLITE COMPRESSOR 🎬</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff9d;
+    --red: #ff2d55;
+    --bg: #060a0f;
+    --panel: #0d1520;
+    --border: #1a2a3a;
+    --text: #c8dae8;
+    --dim: #4a6070;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+      linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .logo {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .title {
+    font-size: 32px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .title span { color: var(--green); }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--dim);
+    margin-top: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: 0.4;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  input[type="text"] {
+    width: 100%;
+    background: #080d14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    padding: 12px 16px;
+    direction: ltr;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(0,255,157,0.08);
+  }
+
+  input[type="text"]::placeholder { color: var(--dim); }
+
+  select {
+    width: 100%;
+    background: #080d14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    outline: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: border-color 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a6070' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 14px center;
+  }
+
+  select:focus { border-color: var(--green); }
+
+  .btn {
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-activate {
+    background: transparent;
+    border: 1px solid var(--green);
+    color: var(--green);
+  }
+
+  .btn-activate:hover {
+    background: rgba(0,255,157,0.08);
+    box-shadow: 0 0 20px rgba(0,255,157,0.15);
+  }
+
+  .btn-check {
+    background: transparent;
+    border: 1px solid #3a5a7a;
+    color: var(--text);
+  }
+
+  .btn-check:hover { border-color: #5a8aaa; background: rgba(255,255,255,0.03); }
+
+  .btn-compress {
+    background: var(--green);
+    color: #060a0f;
+    font-size: 16px;
+    padding: 15px;
+  }
+
+  .btn-compress:hover {
+    background: #00ffb3;
+    box-shadow: 0 0 30px rgba(0,255,157,0.3);
+    transform: translateY(-1px);
+  }
+
+  .btn-compress:active { transform: translateY(0); }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .info-bar {
+    background: #080d14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    display: none;
+  }
+
+  .info-bar.visible { display: flex; justify-content: space-between; align-items: center; }
+  .info-title { color: var(--dim); font-size: 11px; }
+  .info-value { color: var(--red); font-size: 18px; font-weight: bold; }
+
+  .status {
+    text-align: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 12px;
+    display: none;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  .status.info { background: rgba(0,255,157,0.06); color: var(--green); border: 1px solid rgba(0,255,157,0.2); display: block; }
+  .status.error { background: rgba(255,45,85,0.06); color: var(--red); border: 1px solid rgba(255,45,85,0.2); display: block; }
+  .status.success { background: rgba(0,255,157,0.1); color: #00ffb3; border: 1px solid rgba(0,255,157,0.3); display: block; }
+  .status.warning { background: rgba(255,180,0,0.06); color: #ffb400; border: 1px solid rgba(255,180,0,0.2); display: block; }
+
+  .progress-wrap {
+    background: #080d14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 12px;
+    display: none;
+  }
+
+  .progress-wrap.visible { display: block; }
+  .progress-label { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--dim); margin-bottom: 8px; letter-spacing: 2px; }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  .progress-fill.indeterminate {
+    width: 40% !important;
+    animation: slide 1.5s ease-in-out infinite;
+  }
+
+  @keyframes slide {
+    0% { margin-right: 100%; }
+    50% { margin-right: 0%; }
+    100% { margin-right: 100%; }
+  }
+
+  .sites-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .site-badge {
+    background: #080d14;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--dim);
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  .colab-note {
+    font-size: 12px;
+    color: var(--dim);
+    text-align: center;
+    margin-top: 16px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+</style>
 </head>
 <body>
 
-<div class="box">
-    <h2>📡 CLOUD VIDEO COMPRESSOR v1.0</h2>
-    
-    <input type="text" id="serverUrl" placeholder="🔗 حط رابط كولاب هنا">
-    <button class="btn-blue" onclick="activateServer()">🔑 اضغط هنا لتفعيل السيرفر أول مرة</button>
-    <hr style="border-color:#00ffcc; margin: 20px 0;">
+<div class="container">
 
-    <input type="text" id="videoUrl" placeholder="📥 بيست رابط الفيديو هنا...">
-    <button onclick="checkVideo()">🔍 1. فحص حجم الفيديو الأصلي</button>
-    
-    <div id="videoInfo">
-        <p id="videoTitle" style="color:#fff; font-weight:bold;"></p>
-        <p id="sizeDisplay" style="display:none;"> الحجم الأصلي: <span id="videoSize" style="color:#ff0055;"></span> MB</p>
-        
-        <hr style="border-color:#333; margin: 15px 0;">
-        <label>🎛️ 2. اختار مستوى العصر (الضغط):</label>
-        <select id="preset">
-            <option value="veryfast">ضغط طيارة (سريع - حجم متوسط)</option>
-            <option value="medium" selected>ضغط متوازن (حجم صغير - جودة ممتازة)</option>
-            <option value="slow">عصر الفيديو (بطيء - أصغر حجم ممكن للـ 200 ميجا)</option>
-        </select>
-        <button id="compressBtn" onclick="startCompression()" style="background:#00ffcc; color:#0b0e14;">⚡ 3. اضغط الفيديو وحمله فوراً</button>
+  <div class="header">
+    <div class="logo">▸ SATELLITE COMPRESSOR</div>
+    <div class="title">VIDEO <span>SNIPER</span></div>
+    <div class="subtitle">// yt-dlp + ffmpeg cloud engine //</div>
+    <div class="sites-row" style="justify-content:center; margin-top:12px;">
+      <span class="site-badge">YouTube</span>
+      <span class="site-badge">Facebook</span>
+      <span class="site-badge">Twitter/X</span>
+      <span class="site-badge">Reddit</span>
+      <span class="site-badge">Instagram</span>
+      <span class="site-badge">TikTok</span>
+      <span class="site-badge">+1000 موقع</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: Server -->
+  <div class="card">
+    <div class="section-label">01 — تفعيل السيرفر</div>
+    <input type="text" id="serverUrl" placeholder="https://xxxx-xx-xx-xx-xx.ngrok-free.app" dir="ltr">
+    <button class="btn btn-activate" onclick="activateServer()">
+      ⚡ تفعيل سيرفر الكولاب
+    </button>
+    <div id="serverStatus" class="status"></div>
+  </div>
+
+  <!-- STEP 2: Video URL -->
+  <div class="card">
+    <div class="section-label">02 — رابط الفيديو</div>
+    <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." dir="ltr">
+    <button class="btn btn-check" onclick="checkVideo()">
+      🔍 فحص الفيديو وجلب معلوماته
+    </button>
+    <div id="videoInfo" class="info-bar">
+      <div>
+        <div class="info-title">العنوان</div>
+        <div id="videoTitle" style="color:#fff; font-size:13px; max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
+      </div>
+      <div style="text-align:left;">
+        <div class="info-title">الحجم</div>
+        <div class="info-value"><span id="videoSize"></span> <span style="font-size:12px; color:var(--dim);">MB</span></div>
+      </div>
+    </div>
+    <div id="checkStatus" class="status"></div>
+  </div>
+
+  <!-- STEP 3: Compress -->
+  <div class="card">
+    <div class="section-label">03 — الضغط والتحميل</div>
+
+    <div style="font-size:13px; color:var(--dim); margin-bottom:8px;">مستوى الضغط:</div>
+    <select id="preset">
+      <option value="veryfast">🚀 سريع جداً — حجم متوسط (أقل جودة)</option>
+      <option value="medium" selected>⚖️ متوازن — حجم صغير + جودة ممتازة</option>
+      <option value="slow">💎 عصر كامل — أصغر حجم ممكن (أبطأ)</option>
+    </select>
+
+    <div style="font-size:13px; color:var(--dim); margin-top:14px; margin-bottom:4px;">دقة الفيديو:</div>
+    <select id="resolution">
+      <option value="1080">1080p — Full HD</option>
+      <option value="720" selected>720p — HD (مناسب للمشاركة)</option>
+      <option value="480">480p — صغير جداً</option>
+      <option value="360">360p — أصغر حجم</option>
+      <option value="best">أفضل جودة متاحة</option>
+    </select>
+
+    <button class="btn btn-compress" id="compressBtn" onclick="startCompression()">
+      ⬇ ضغط وتحميل الفيديو
+    </button>
+
+    <div id="progressWrap" class="progress-wrap">
+      <div class="progress-label" id="progressLabel">PROCESSING...</div>
+      <div class="progress-bar"><div class="progress-fill indeterminate" id="progressFill"></div></div>
     </div>
 
-    <div id="status"></div>
+    <div id="compressStatus" class="status"></div>
+  </div>
+
+  <div class="colab-note">
+    ▸ السيرفر شغال على Google Colab — شغّل الـ notebook الأول قبل الاستخدام
+  </div>
+
 </div>
 
 <script>
-    function activateServer() {
-        const server = document.getElementById('serverUrl').value.replace(/\/$/, "");
-        if(!server) return alert('حط رابط كولاب الأول يا فنان!');
-        window.open(server, '_blank');
-    }
+  function setStatus(id, msg, type) {
+    const el = document.getElementById(id);
+    el.className = 'status ' + type;
+    el.innerHTML = msg;
+  }
 
-    async function checkVideo() {
-        const server = document.getElementById('serverUrl').value.replace(/\/$/, "");
-        const url = document.getElementById('videoUrl').value;
-        if(!server || !url) return alert('املا الخانات الأول يا فنان!');
-        
-        document.getElementById('status').innerText = "⏳ جاري فحص الحجم الأصلي...";
-        try {
-            const res = await fetch(`${server}/info`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ url: url })
-            });
-            const data = await res.json();
-            document.getElementById('videoTitle').innerText = data.title;
-            document.getElementById('videoSize').innerText = data.size_mb;
-            document.getElementById('sizeDisplay').style.display = "block";
-            document.getElementById('status').innerText = "✅ تم جلب الحجم الأصلي! اِضغط على زرار الضغط الأخضر تحت حالاً.";
-        } catch(e) {
-            document.getElementById('status').innerText = "❌ المتصفح حظر الفحص التلقائي، بس مفيش مشكلة.. تقدر تضغط وتحمل علطول بالزرار الأخضر تحت!";
-        }
-    }
+  function activateServer() {
+    const server = document.getElementById('serverUrl').value.trim().replace(/\/$/, "");
+    if (!server) { setStatus('serverStatus', '⚠ حط رابط ngrok الأول', 'error'); return; }
+    if (!server.startsWith('http')) { setStatus('serverStatus', '⚠ الرابط لازم يبدأ بـ https://', 'error'); return; }
+    window.open(server, '_blank');
+    setStatus('serverStatus', '✓ تم فتح السيرفر — لو ظهرت صفحة ngrok اضغط "Visit Site" ثم ارجع هنا', 'info');
+  }
 
-    async function startCompression() {
-        const server = document.getElementById('serverUrl').value.replace(/\/$/, "");
-        const url = document.getElementById('videoUrl').value;
-        const preset = document.getElementById('preset').value;
-        if(!server || !url) return alert('حط الروابط الأول يا غالي!');
-        
-        document.getElementById('status').innerText = "🚀 كولاب بيفرم ويعصر الفيديو حالياً... استنى ثواني هتلاقيه بيحمل لوحده بحجم صغير!";
-        try {
-            const response = await fetch(`${server}/compress`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ url: url, preset: preset })
-            });
-            
-            const blob = await response.blob();
-            const downloadUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = "compressed_video.mp4";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            document.getElementById('status').innerText = "📥 مبروك! تم التحميل بالحجم الجديد الصغير.";
-        } catch(e) {
-            document.getElementById('status').innerText = "❌ حصلت مشكلة؛ اتأكد إنك ضغطت على الزرار الأزرق فوق مرة لتفعيل السيرفر.";
-        }
+  async function checkVideo() {
+    const server = document.getElementById('serverUrl').value.trim().replace(/\/$/, "");
+    const url = document.getElementById('videoUrl').value.trim();
+    if (!server) { setStatus('checkStatus', '⚠ حط رابط السيرفر الأول', 'error'); return; }
+    if (!url) { setStatus('checkStatus', '⚠ حط رابط الفيديو', 'error'); return; }
+
+    setStatus('checkStatus', '⏳ جاري فحص الفيديو...', 'info');
+    document.getElementById('videoInfo').classList.remove('visible');
+
+    try {
+      const res = await fetch(`${server}/info`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+        body: JSON.stringify({ url })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      document.getElementById('videoTitle').textContent = data.title || 'بدون عنوان';
+      document.getElementById('videoSize').textContent = data.size_mb || '??';
+      document.getElementById('videoInfo').classList.add('visible');
+      setStatus('checkStatus', '✓ تم جلب معلومات الفيديو — اختار مستوى الضغط تحت وحمّل', 'success');
+    } catch (e) {
+      setStatus('checkStatus', '⚠ مقدرش أفحص — ممكن تضغط وتحمل علطول بدون فحص<br><small style="opacity:0.6">' + e.message + '</small>', 'warning');
     }
+  }
+
+  async function startCompression() {
+    const server = document.getElementById('serverUrl').value.trim().replace(/\/$/, "");
+    const url = document.getElementById('videoUrl').value.trim();
+    const preset = document.getElementById('preset').value;
+    const resolution = document.getElementById('resolution').value;
+
+    if (!server) { setStatus('compressStatus', '⚠ حط رابط السيرفر الأول', 'error'); return; }
+    if (!url) { setStatus('compressStatus', '⚠ حط رابط الفيديو', 'error'); return; }
+
+    const btn = document.getElementById('compressBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ شغّال...';
+
+    document.getElementById('progressWrap').classList.add('visible');
+    document.getElementById('progressLabel').textContent = 'DOWNLOADING + COMPRESSING...';
+    setStatus('compressStatus', '🚀 السيرفر بيحمّل الفيديو ويعصره... ممكن ياخد من 30 ثانية لـ 5 دقايق حسب الفيديو', 'info');
+
+    try {
+      const response = await fetch(`${server}/compress`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+        body: JSON.stringify({ url, preset, resolution })
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(errText || `HTTP ${response.status}`);
+      }
+
+      document.getElementById('progressLabel').textContent = 'DOWNLOADING TO YOUR DEVICE...';
+      const blob = await response.blob();
+      const sizeMB = (blob.size / 1024 / 1024).toFixed(1);
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `compressed_${Date.now()}.mp4`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(downloadUrl);
+
+      document.getElementById('progressWrap').classList.remove('visible');
+      setStatus('compressStatus', `✅ مبروك! تم التحميل — الحجم النهائي: ${sizeMB} MB`, 'success');
+    } catch (e) {
+      document.getElementById('progressWrap').classList.remove('visible');
+      setStatus('compressStatus', '❌ حصلت مشكلة:<br><small>' + e.message + '</small><br><small style="opacity:0.6">اتأكد إن السيرفر شغّال وضغطت "Visit Site" في ngrok</small>', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '⬇ ضغط وتحميل الفيديو';
+    }
+  }
 </script>
-
 </body>
 </html>
